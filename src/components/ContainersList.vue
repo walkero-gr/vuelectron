@@ -7,7 +7,6 @@
         <v-app id="containersList">
             <v-card>
                 <v-card-title>
-                    Available Containers
                     <v-spacer></v-spacer>
                     <v-text-field
                     v-model="search"
