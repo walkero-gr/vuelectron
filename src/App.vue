@@ -24,7 +24,7 @@
       </div>
       <v-spacer></v-spacer>
       <v-btn @click="dark = !dark" icon>
-        <v-icon>brightness_2</v-icon>
+        <v-icon>invert_colors</v-icon>
       </v-btn>
     </v-toolbar>
 
@@ -53,16 +53,16 @@ export default {
 
 <style>
 #nav a {
-  color: #1d1d1d;
+  color: #212121;
   text-decoration: none;
 }
 #nav a:hover {
-  color: #6e6e6e;
+  color: #616161;
 }
 .theme--dark #nav a {
   color: white;
 }
 .theme--dark #nav a:hover {
-  color: #d4d4d4;
+  color: #eeeeee;
 }
 </style>
