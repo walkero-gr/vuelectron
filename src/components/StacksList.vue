@@ -4,9 +4,9 @@
       wrap
     >
       <v-flex xs-12>
-        <v-app id="containersList">
+        <v-app id="stacksList">
             <v-card>
-                <v-card-title>
+                <!-- <v-card-title>
                     <v-spacer></v-spacer>
                     <v-text-field
                     v-model="search"
@@ -15,21 +15,21 @@
                     single-line
                     hide-details
                     ></v-text-field>
-                </v-card-title>
+                </v-card-title> -->
                 <v-data-table
                 :headers="headers"
-                :items="containers"
+                :items="stacks"
                 :search="search"
                 class="elevation-1"
                 >
-                <template v-slot:items="containers">
-                    <td>{{ containers.item.containerName }}</td>
-                    <td class="text-xs-center">
+                <template v-slot:items="stacks">
+                    <td>{{ stacks.item.name }}</td>
+                    <!-- <td class="text-xs-center">
                         <v-chip :color="containers.item.statusInfo[0].color" text-color="white" small>{{ containers.item.statusInfo[0].text }}</v-chip>
                     </td>
                     <td class="text-xs-left">{{ containers.item.stack }}</td>
                     <td class="text-xs-left">{{ containers.item.imageName }}</td>
-                    <td class="text-xs-left">{{ containers.item.createdString }}</td>
+                    <td class="text-xs-left">{{ containers.item.createdString }}</td> -->
                 </template>
                 <template v-slot:no-data>
                     <v-alert :value="true" color="error" icon="error">
@@ -59,22 +59,22 @@
                 text: 'Container',
                 align: 'left',
                 sortable: true,
-                value: 'containerName'
+                value: 'name'
             },
-            { 
-                text: 'Status', align: 'center', value: 'State' 
-            },
-            { 
-                text: 'Stack', align: 'left', value: 'stack' 
-            },
-            { 
-                text: 'Image', align: 'left', value: 'imageName' 
-            },
-            { 
-                text: 'Created', align: 'left', value: 'createdString' 
-            }
+            // { 
+            //     text: 'Status', align: 'center', value: 'name' 
+            // },
+            // { 
+            //     text: 'Stack', align: 'left', value: 'name' 
+            // },
+            // { 
+            //     text: 'Image', align: 'left', value: 'name' 
+            // },
+            // { 
+            //     text: 'Created', align: 'left', value: 'name' 
+            // }
             ],
-            containers: []
+            stacks: []
         }
     },
     created () {
@@ -85,18 +85,29 @@
                     json: true
                 })
                 let containersData = response.body
+                let stacksData = []
                 containersData.forEach(element => {
                     element.containerName = voca.splice(element.Names[0], 0, 1)
                     element.stack = (element.Labels['com.docker.compose.project']) ? element.Labels['com.docker.compose.project'] : '-'
                     element.statusInfo = this.getStatusInfo(element.State)
                     element.createdString = moment(element.Created*1000).format('YYYY-MM-DD')
                     element.imageName = element.Image
-                    if(voca.indexOf(element.Image, 'sha256:') >= 0) {
-                        element.imageName = voca.splice(element.Image, 0, 7)
-                        element.imageName = voca.splice(element.imageName, 12)
+
+                    if(!stacksData[element.stack]) {
+                        stacksData[element.stack] = {
+                            name: element.stack,
+                            containers: []
+                        }
                     }
+                    stacksData[element.stack].containers.push(element)
                 });
-                this.containers = containersData
+
+                let stacks = Object.keys(stacksData).map((key) => {
+                    return stacksData[key]
+                })
+                
+                console.log(stacks)
+                this.stacks = stacks
             } catch (error) {
                 console.log(error.response.body)
             }

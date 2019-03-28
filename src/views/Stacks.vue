@@ -1,23 +1,23 @@
 <template>  
   <v-container>
     <v-flex xs-12>
-      <h5 class="headline font-weight-thin mb-3">Available Containers</h5>
+      <h5 class="headline font-weight-thin mb-3">Available Stacks</h5>
     </v-flex>
     <v-layout
       text-xs-center
       wrap
     >
-      <ContainersList />
+      <StacksList />
     </v-layout>
   </v-container>
 </template>
 
 <script>
-  import ContainersList from '../components/ContainersList'
+  import StacksList from '../components/StacksList'
 
   export default {
     components: {
-      ContainersList
+      StacksList
     }
   }
 </script>

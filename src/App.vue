@@ -16,10 +16,11 @@
       </v-btn> -->
 
       
-      <div id="nav">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link> | 
-        <router-link to="/containers">Containers</router-link>
+      <div id="nav" class="font-weight-light">
+        <!-- <router-link to="/">Home</router-link> | -->
+        <router-link to="/stacks">Stacks</router-link> | 
+        <router-link to="/containers">Containers</router-link> | 
+        <!-- <router-link to="/recipies">Recipies</router-link> -->
       </div>
       <v-spacer></v-spacer>
       <v-btn @click="dark = !dark" icon>
@@ -49,3 +50,19 @@ export default {
   }
 }
 </script>
+
+<style>
+#nav a {
+  color: #1d1d1d;
+  text-decoration: none;
+}
+#nav a:hover {
+  color: #6e6e6e;
+}
+.theme--dark #nav a {
+  color: white;
+}
+.theme--dark #nav a:hover {
+  color: #d4d4d4;
+}
+</style>
