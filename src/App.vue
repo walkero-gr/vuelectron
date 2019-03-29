@@ -1,5 +1,5 @@
 <template>
-  <v-app :dark="dark">
+  <v-app :dark="storedDark">
 
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
@@ -20,10 +20,10 @@
         <!-- <router-link to="/">Home</router-link> | -->
         <router-link to="/stacks">Stacks</router-link> |
         <router-link to="/containers">Containers</router-link> |
-        <!-- <router-link to="/recipies">Recipies</router-link> -->
+        <router-link to="/recipes">Recipes</router-link>
       </div>
       <v-spacer></v-spacer>
-      <v-btn @click="dark = !dark" icon>
+      <v-btn @click="switchTheme()" icon>
         <v-icon>invert_colors</v-icon>
       </v-btn>
     </v-toolbar>
@@ -35,20 +35,42 @@
 </template>
 
 <script>
-// import LandingPage from './components/LandingPage'
+  const ElectronStore = require('electron-store');
+  const electronConfig = new ElectronStore();
 
-export default {
-  name: 'App',
-  components: {
-    // LandingPage
-  },
-  data () {
-    return {
-      //
-      dark: false
+  // import LandingPage from './components/LandingPage'
+
+  export default {
+    name: 'App',
+    components: {
+      // LandingPage
+    },
+    data () {
+      return {
+      }
+    },
+    created () {
+      this.setTheme(electronConfig.get('userTheme'))
+      // electronConfig.set('userTheme', 'blue');
+    },
+    computed: {
+      storedDark() {
+        return this.$store.state.dark
+      }
+    },
+    methods: {
+      switchTheme() {
+        this.dark = !this.dark
+        this.$store.commit('switchTheme', this.dark)
+        electronConfig.set('userTheme', this.dark)
+        // console.log(electronConfig.get('userTheme'))
+      },
+      setTheme(setDark = false) {
+        this.$store.commit('switchTheme', setDark)
+        electronConfig.set('userTheme', this.dark)
+      }
     }
   }
-}
 </script>
 
 <style>
