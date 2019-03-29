@@ -20,17 +20,24 @@
                 :headers="headers"
                 :items="stacks"
                 :search="search"
+                :rows-per-page-items="itemsPerPage"
                 class="elevation-1"
                 item-key="name"
                 >
                 <template v-slot:items="stacks">
                     <tr @click="stacks.expanded = !stacks.expanded">
-                        <td>{{ stacks.item.name }}</td>
+                        <td v-ripple>{{ stacks.item.name }}</td>
+                        <td class="text-xs-center">
+                            <v-chip :color="stacks.item.statusInfo[0].color" text-color="white" small>{{ stacks.item.statusInfo[0].text }}</v-chip>
+                        </td>
+                        <td class="text-xs-center">{{ stacks.item.numOfContainers }}</td>
+                        <td class="text-xs-center green--text text--darken-3">{{ stacks.item.runningContainers }}</td>
+                        <td class="text-xs-center red--text text--darken-3">{{ stacks.item.numOfContainers - stacks.item.runningContainers }}</td>
                     </tr>
                 </template>
                 <template v-slot:expand="stacks">
                     <v-card flat>
-                        <ContainersList :containers="stacks.item.containers" />
+                        <ContainersList :containers="stacks.item.containers" :hideActions="true" :hideSearch="true" />
                     </v-card>
                 </template>
                 <template v-slot:no-data>
@@ -56,21 +63,49 @@
     },
     props: ['stacks'],
     data () {
-        return {
-            search: '',
-            headers: [
-            {
-                text: 'Stack name',
-                align: 'left',
-                sortable: true,
-                value: 'name'
-            }
-            ]
+      return {
+        search: '',
+        headers: [
+        {
+          text: 'Stack name',
+          align: 'left',
+          sortable: true,
+          value: 'name'
+        },
+        {
+          text: 'Status',
+          align: 'center',
+          sortable: true,
+          value: 'statusInfo[0].text'
+        },
+        {
+          text: 'No. Containers',
+          align: 'center',
+          sortable: false
+        },
+        {
+          text: 'Running',
+          align: 'center',
+          sortable: false
+        },
+        {
+          text: 'Stopped',
+          align: 'center',
+          sortable: false
         }
+        ],
+        itemsPerPage: [
+          10, 25, {
+            "text":"$vuetify.dataIterator.rowsPerPageAll","value":-1
+          }
+        ]
+      }
     }
   }
 </script>
 
 <style>
-
+tr:hover {
+  cursor: pointer;
+}
 </style>

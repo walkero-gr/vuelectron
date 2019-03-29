@@ -1,4 +1,4 @@
-<template>  
+<template>
   <v-container>
     <v-flex xs-12>
       <h5 class="headline font-weight-thin mb-3">Available Stacks</h5>
@@ -47,18 +47,27 @@
                         if(!stacksData[element.stack]) {
                             stacksData[element.stack] = {
                                 name: element.stack,
+                                numOfContainers: 0,
+                                runningContainers: 0,
+                                statusInfo: this.getStatusInfo('exited'),
                                 containers: []
                             }
                         }
                         stacksData[element.stack].containers.push(element)
+                        stacksData[element.stack].numOfContainers++
+                        if (element.State == 'running') {
+                          stacksData[element.stack].runningContainers++
+                        }
+                        if (stacksData[element.stack].runningContainers > 0) {
+                          stacksData[element.stack].statusInfo = this.getStatusInfo('running');
+                        }
                     }
                 });
 
                 let stacks = Object.keys(stacksData).map((key) => {
                     return stacksData[key]
                 })
-                
-                // console.log(stacks)
+
                 this.stacks = stacks
             } catch (error) {
                 console.log(error.response.body)
