@@ -95,7 +95,7 @@
         }
         ],
         itemsPerPage: [
-          10, 25, {
+          5, 10, 25, {
             "text":"$vuetify.dataIterator.rowsPerPageAll","value":-1
           }
         ]
@@ -108,5 +108,4 @@
 tr:hover {
   cursor: pointer;
 }
-
 </style>

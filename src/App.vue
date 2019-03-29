@@ -52,8 +52,7 @@ export default {
 </script>
 
 <style>
-
-.application--wrap {
+.v-content .application--wrap {
   min-height: unset;
 }
 #nav a {
