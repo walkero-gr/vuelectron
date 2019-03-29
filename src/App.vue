@@ -15,11 +15,11 @@
         <span class="mr-2">Latest Release</span>
       </v-btn> -->
 
-      
+
       <div id="nav" class="font-weight-light">
         <!-- <router-link to="/">Home</router-link> | -->
-        <router-link to="/stacks">Stacks</router-link> | 
-        <router-link to="/containers">Containers</router-link> | 
+        <router-link to="/stacks">Stacks</router-link> |
+        <router-link to="/containers">Containers</router-link> |
         <!-- <router-link to="/recipies">Recipies</router-link> -->
       </div>
       <v-spacer></v-spacer>
@@ -52,6 +52,10 @@ export default {
 </script>
 
 <style>
+
+.application--wrap {
+  min-height: unset;
+}
 #nav a {
   color: #212121;
   text-decoration: none;
