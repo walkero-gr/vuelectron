@@ -50,8 +50,8 @@
       }
     },
     created () {
-      this.setTheme(electronConfig.get('userTheme'))
-      // electronConfig.set('userTheme', 'blue');
+      let configTheme = electronConfig.get('userTheme')
+      this.setTheme(configTheme)
     },
     computed: {
       storedDark() {
@@ -60,12 +60,10 @@
     },
     methods: {
       switchTheme() {
-        this.dark = !this.dark
-        this.$store.commit('switchTheme', this.dark)
-        electronConfig.set('userTheme', this.dark)
-        // console.log(electronConfig.get('userTheme'))
+        this.setTheme(!this.dark)
       },
       setTheme(setDark = false) {
+        this.dark = setDark
         this.$store.commit('switchTheme', setDark)
         electronConfig.set('userTheme', this.dark)
       }
